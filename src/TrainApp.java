@@ -1,30 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
+        System.out.println("--- UC3: Ensuring Unique Bogie IDs ---\n");
 
-        // 1. Create an ArrayList<String> for passenger bogies
-        List<String> passengerBogies = new ArrayList<>();
+        // 1. Create a HashSet<String> for bogie IDs
+        // HashSet automatically handles deduplication
+        Set<String> bogieIds = new HashSet<>();
 
-        // 2. Add bogies: Sleeper, AC Chair, First Class
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
+        // 2. Add bogie IDs (including intentional duplicates)
+        System.out.println("Action: Adding Bogie IDs [B101, B102, B103, B101]...");
+        bogieIds.add("B101");
+        bogieIds.add("B102");
+        bogieIds.add("B103");
 
-        // 3. Print the list after insertion
-        System.out.println("Bogies after addition: " + passengerBogies);
+        // This duplicate entry will be ignored by the HashSet
+        bogieIds.add("B101");
 
-        // 4. Remove one bogie (AC Chair)
-        System.out.println("\nAction: Removing 'AC Chair'...");
-        passengerBogies.remove("AC Chair");
+        // 3. Print the final set
+        System.out.println("Current Unique Bogie IDs in System:");
+        System.out.println(bogieIds);
 
-        // 5. Use contains() to check if Sleeper exists
-        boolean hasSleeper = passengerBogies.contains("Sleeper");
-        System.out.println("Does 'Sleeper' exist in consist? " + hasSleeper);
-
-        // 6. Print final list state
-        System.out.println("\nFinal Consist State: " + passengerBogies);
+        // 4. Observe that duplicates are removed automatically
+        System.out.println("\nSystem Report: Total unique bogies registered: " + bogieIds.size());
+        System.out.println("Note: Duplicate entry 'B101' was automatically rejected.");
     }
 }
