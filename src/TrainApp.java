@@ -3,18 +3,28 @@ import java.util.List;
 
 public class TrainApp {
     public static void main(String[] args) {
-        // 1. Display Welcome Message
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("System Status: Initializing Engine and Infrastructure...");
 
-        // 2. Dynamic Initialization 
-        // We use the List interface for abstraction and ArrayList for resizable storage
-        List<Coach> trainConsist = new ArrayList<>();
+        // 1. Create an ArrayList<String> for passenger bogies
+        List<String> passengerBogies = new ArrayList<>();
 
-        // 3. Display Initial Summary
-        // size() returns 0 because no bogies have been coupled yet
-        System.out.println("Initial Bogie Count: " + trainConsist.size());
+        // 2. Add bogies: Sleeper, AC Chair, First Class
+        passengerBogies.add("Sleeper");
+        passengerBogies.add("AC Chair");
+        passengerBogies.add("First Class");
 
-        System.out.println("\nUC1 Completed: Ready for coach allocation.");
+        // 3. Print the list after insertion
+        System.out.println("Bogies after addition: " + passengerBogies);
+
+        // 4. Remove one bogie (AC Chair)
+        System.out.println("\nAction: Removing 'AC Chair'...");
+        passengerBogies.remove("AC Chair");
+
+        // 5. Use contains() to check if Sleeper exists
+        boolean hasSleeper = passengerBogies.contains("Sleeper");
+        System.out.println("Does 'Sleeper' exist in consist? " + hasSleeper);
+
+        // 6. Print final list state
+        System.out.println("\nFinal Consist State: " + passengerBogies);
     }
 }
