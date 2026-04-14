@@ -1,37 +1,33 @@
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC4: Ordered Chaining with LinkedList ---\n");
+        System.out.println("--- UC5: Unique Formation with LinkedHashSet ---\n");
 
-        // 1. Create a LinkedList<String> for the consist
-        // LinkedList is ideal for head/tail operations (shunting)
-        LinkedList<String> trainConsist = new LinkedList<>();
+        // 1. Create a LinkedHashSet<String> for the train formation
+        // This ensures uniqueness AND preserves the insertion order
+        Set<String> trainFormation = new LinkedHashSet<>();
 
-        // 2. Add bogies: Engine, Sleeper, AC, Cargo, Guard
-        trainConsist.add("Engine");
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC Coach");
-        trainConsist.add("Cargo");
-        trainConsist.add("Guard Van");
+        // 2. Attach bogies in physical sequence
+        trainFormation.add("Engine");
+        trainFormation.add("Sleeper");
+        trainFormation.add("Cargo");
+        trainFormation.add("Guard Van");
 
-        System.out.println("Initial Sequence: " + trainConsist);
+        // 3. Attempt to attach a duplicate bogie (Sleeper)
+        System.out.println("Action: Attempting to attach duplicate 'Sleeper'...");
+        trainFormation.add("Sleeper");
 
-        // 3. Insert a Pantry Car at position 2 (index starts at 0)
-        System.out.println("\nAction: Inserting 'Pantry Car' in the middle...");
-        trainConsist.add(2, "Pantry Car");
-        System.out.println("After Insertion: " + trainConsist);
+        // 4. Display the final formation order
+        System.out.println("\nFinal Train Formation (Order Preserved):");
+        for (String bogie : trainFormation) {
+            System.out.println("Attached: " + bogie);
+        }
 
-        // 4. Remove the first and last bogie
-        System.out.println("\nAction: Detaching Engine (Head) and Guard Van (Tail)...");
-        trainConsist.removeFirst();
-        trainConsist.removeLast();
-
-        // 5. Display the final ordered train consist
-        System.out.println("\nFinal Ordered Train Consist:");
-        System.out.println(trainConsist);
-
-        System.out.println("\nUC4 Completed: Physical chaining modeled successfully.");
+        // 5. Verification
+        System.out.println("\nTotal Bogies: " + trainFormation.size());
+        System.out.println("Result: Duplicates were ignored, and the original sequence was maintained.");
     }
 }
