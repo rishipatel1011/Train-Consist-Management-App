@@ -1,30 +1,35 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC6: Bogie-Capacity Mapping with HashMap ---\n");
+        System.out.println("--- UC7: Sorting by Capacity with Comparator ---\n");
 
-        // 1. Create a HashMap<String, Integer> to store bogie-capacity information
-        // Key: Bogie Name (String), Value: Capacity (Integer)
-        Map<String, Integer> bogieCapacities = new HashMap<>();
+        // 1. Create a List to store Coach objects
+        List<Coach> passengerBogies = new ArrayList<>();
 
-        // 2. Insert capacity values using the put() method
-        bogieCapacities.put("Sleeper", 72);
-        bogieCapacities.put("AC Chair", 60);
-        bogieCapacities.put("First Class", 24);
-        bogieCapacities.put("General", 90);
+        // 2. Add bogies with different capacities
+        passengerBogies.add(new Coach("Sleeper", 72));
+        passengerBogies.add(new Coach("AC Chair", 60));
+        passengerBogies.add(new Coach("First Class", 24));
+        passengerBogies.add(new Coach("General", 90));
 
-        // 3. Display individual lookup example
-        System.out.println("Capacity lookup for 'Sleeper': " + bogieCapacities.get("Sleeper") + " seats");
+        System.out.println("Before Sorting (Insertion Order):");
+        passengerBogies.forEach(System.out::println);
 
-        // 4. Iterate over the map using entrySet() to display all mappings
-        System.out.println("\n--- Full Bogie Capacity Report ---");
-        for (Map.Entry<String, Integer> entry : bogieCapacities.entrySet()) {
-            System.out.println("Bogie Type: " + entry.getKey() + " | Seat Capacity: " + entry.getValue());
-        }
+        // 3. Apply Comparator to sort by capacity (Ascending)
+        // Using Lambda expression for concise logic
+        passengerBogies.sort(Comparator.comparingInt(Coach::getCapacity));
 
-        System.out.println("\nUC6 Completed: Key-Value association established.");
+        System.out.println("\nAfter Sorting (By Capacity - Ascending):");
+        passengerBogies.forEach(System.out::println);
+
+        // 4. Bonus: Sorting by capacity (Descending) for high-capacity planning
+        passengerBogies.sort(Comparator.comparingInt(Coach::getCapacity).reversed());
+
+        System.out.println("\nAfter Sorting (By Capacity - Descending):");
+        passengerBogies.forEach(System.out::println);
     }
 }
