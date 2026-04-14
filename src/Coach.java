@@ -1,17 +1,17 @@
 public class Coach {
-    private String name;
+    private String type;
     private int capacity;
 
-    public Coach(String name, int capacity) {
-        this.name = name;
+    public Coach(String type, int capacity) {
+        this.type = type;
         this.capacity = capacity;
     }
 
-    public String getName() { return name; }
+    public String getType() { return type; }
     public int getCapacity() { return capacity; }
 
     @Override
     public String toString() {
-        return String.format("[Bogie: %-12s | Capacity: %d seats]", name, capacity);
+        return String.format("[Type: %-12s | Capacity: %d]", type, capacity);
     }
 }
