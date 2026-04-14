@@ -1,33 +1,30 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC5: Unique Formation with LinkedHashSet ---\n");
+        System.out.println("--- UC6: Bogie-Capacity Mapping with HashMap ---\n");
 
-        // 1. Create a LinkedHashSet<String> for the train formation
-        // This ensures uniqueness AND preserves the insertion order
-        Set<String> trainFormation = new LinkedHashSet<>();
+        // 1. Create a HashMap<String, Integer> to store bogie-capacity information
+        // Key: Bogie Name (String), Value: Capacity (Integer)
+        Map<String, Integer> bogieCapacities = new HashMap<>();
 
-        // 2. Attach bogies in physical sequence
-        trainFormation.add("Engine");
-        trainFormation.add("Sleeper");
-        trainFormation.add("Cargo");
-        trainFormation.add("Guard Van");
+        // 2. Insert capacity values using the put() method
+        bogieCapacities.put("Sleeper", 72);
+        bogieCapacities.put("AC Chair", 60);
+        bogieCapacities.put("First Class", 24);
+        bogieCapacities.put("General", 90);
 
-        // 3. Attempt to attach a duplicate bogie (Sleeper)
-        System.out.println("Action: Attempting to attach duplicate 'Sleeper'...");
-        trainFormation.add("Sleeper");
+        // 3. Display individual lookup example
+        System.out.println("Capacity lookup for 'Sleeper': " + bogieCapacities.get("Sleeper") + " seats");
 
-        // 4. Display the final formation order
-        System.out.println("\nFinal Train Formation (Order Preserved):");
-        for (String bogie : trainFormation) {
-            System.out.println("Attached: " + bogie);
+        // 4. Iterate over the map using entrySet() to display all mappings
+        System.out.println("\n--- Full Bogie Capacity Report ---");
+        for (Map.Entry<String, Integer> entry : bogieCapacities.entrySet()) {
+            System.out.println("Bogie Type: " + entry.getKey() + " | Seat Capacity: " + entry.getValue());
         }
 
-        // 5. Verification
-        System.out.println("\nTotal Bogies: " + trainFormation.size());
-        System.out.println("Result: Duplicates were ignored, and the original sequence was maintained.");
+        System.out.println("\nUC6 Completed: Key-Value association established.");
     }
 }
