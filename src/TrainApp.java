@@ -1,30 +1,37 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC3: Ensuring Unique Bogie IDs ---\n");
+        System.out.println("--- UC4: Ordered Chaining with LinkedList ---\n");
 
-        // 1. Create a HashSet<String> for bogie IDs
-        // HashSet automatically handles deduplication
-        Set<String> bogieIds = new HashSet<>();
+        // 1. Create a LinkedList<String> for the consist
+        // LinkedList is ideal for head/tail operations (shunting)
+        LinkedList<String> trainConsist = new LinkedList<>();
 
-        // 2. Add bogie IDs (including intentional duplicates)
-        System.out.println("Action: Adding Bogie IDs [B101, B102, B103, B101]...");
-        bogieIds.add("B101");
-        bogieIds.add("B102");
-        bogieIds.add("B103");
+        // 2. Add bogies: Engine, Sleeper, AC, Cargo, Guard
+        trainConsist.add("Engine");
+        trainConsist.add("Sleeper");
+        trainConsist.add("AC Coach");
+        trainConsist.add("Cargo");
+        trainConsist.add("Guard Van");
 
-        // This duplicate entry will be ignored by the HashSet
-        bogieIds.add("B101");
+        System.out.println("Initial Sequence: " + trainConsist);
 
-        // 3. Print the final set
-        System.out.println("Current Unique Bogie IDs in System:");
-        System.out.println(bogieIds);
+        // 3. Insert a Pantry Car at position 2 (index starts at 0)
+        System.out.println("\nAction: Inserting 'Pantry Car' in the middle...");
+        trainConsist.add(2, "Pantry Car");
+        System.out.println("After Insertion: " + trainConsist);
 
-        // 4. Observe that duplicates are removed automatically
-        System.out.println("\nSystem Report: Total unique bogies registered: " + bogieIds.size());
-        System.out.println("Note: Duplicate entry 'B101' was automatically rejected.");
+        // 4. Remove the first and last bogie
+        System.out.println("\nAction: Detaching Engine (Head) and Guard Van (Tail)...");
+        trainConsist.removeFirst();
+        trainConsist.removeLast();
+
+        // 5. Display the final ordered train consist
+        System.out.println("\nFinal Ordered Train Consist:");
+        System.out.println(trainConsist);
+
+        System.out.println("\nUC4 Completed: Physical chaining modeled successfully.");
     }
 }
