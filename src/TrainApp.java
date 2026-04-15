@@ -3,51 +3,45 @@ import java.util.Arrays;
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC19: Binary Search (Divide & Conquer) ---\n");
+        System.out.println("--- UC20: Defensive State Validation ---\n");
 
-        // 1. Data must be SORTED for Binary Search to work
-        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
-        Arrays.sort(bogieIds);
-
-        String target = "BG412";
-        System.out.println("Searching for Bogie ID: " + target);
-
-        // 2. Perform Binary Search
-        int resultIndex = performBinarySearch(bogieIds, target);
-
-        // 3. Display Result
-        if (resultIndex != -1) {
-            System.out.println("SUCCESS: Bogie found at index " + resultIndex);
-        } else {
-            System.out.println("NOT FOUND: Bogie does not exist in the consist.");
+        // Test Scenario 1: Searching an empty array
+        String[] emptyConsist = {};
+        try {
+            System.out.println("Action: Searching in an empty train consist...");
+            performSafeSearch(emptyConsist, "BG101");
+        } catch (IllegalStateException e) {
+            System.out.println("CAUGHT EXCEPTION: " + e.getMessage());
         }
+
+        // Test Scenario 2: Searching a valid array
+        String[] validConsist = {"BG101", "BG205", "BG309"};
+        System.out.println("\nAction: Searching in a valid train consist...");
+        performSafeSearch(validConsist, "BG205");
     }
 
     /**
-     * Implementation of Binary Search for Strings
+     * Performs a search only if the train state is valid (not empty)
      */
-    public static int performBinarySearch(String[] arr, String key) {
-        int low = 0;
-        int high = arr.length - 1;
+    public static void performSafeSearch(String[] arr, String key) {
+        // 1. State Validation (Defensive Check)
+        if (arr == null || arr.length == 0) {
+            throw new IllegalStateException("Search Failed: Cannot search a train with no bogies attached.");
+        }
 
-        while (low <= high) {
-            // Find the middle index
-            int mid = low + (high - low) / 2;
-
-            // compareTo() returns 0 if equal, <0 if key is smaller, >0 if key is larger
-            int comparison = key.compareTo(arr[mid]);
-
-            if (comparison == 0) {
-                return mid; // Key found!
-            }
-
-            if (comparison > 0) {
-                low = mid + 1; // Key is in the right half
-            } else {
-                high = mid - 1; // Key is in the left half
+        // 2. Proceed with search logic if valid
+        boolean found = false;
+        for (String id : arr) {
+            if (id.equals(key)) {
+                found = true;
+                break;
             }
         }
 
-        return -1; // Key not found after exhausting the range
+        if (found) {
+            System.out.println("SUCCESS: Bogie " + key + " located.");
+        } else {
+            System.out.println("INFO: Bogie " + key + " not found.");
+        }
     }
 }
