@@ -1,17 +1,17 @@
 public class Coach {
     private String type;
-    private int capacity;
+    private String cargo;
 
-    public Coach(String type, int capacity) {
+    public Coach(String type, String cargo) {
         this.type = type;
-        this.capacity = capacity;
+        this.cargo = cargo;
     }
 
     public String getType() { return type; }
-    public int getCapacity() { return capacity; }
+    public String getCargo() { return cargo; }
 
     @Override
     public String toString() {
-        return String.format("[Type: %-12s | Capacity: %d seats]", type, capacity);
+        return String.format("[Type: %-12s | Cargo: %-10s]", type, cargo);
     }
 }
