@@ -1,27 +1,46 @@
-import java.util.Arrays;
-
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC17: Efficient Sorting with Arrays.sort() ---\n");
+        System.out.println("--- UC18: Locating Bogies with Linear Search ---\n");
 
-        // 1. Create an array of bogie type names
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // 1. Create an array of bogie IDs
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println("Original Bogie Names: " + Arrays.toString(bogieNames));
+        // 2. Define the search keys (Test Cases)
+        String searchKey1 = "BG309"; // Existing ID
+        String searchKey2 = "BG999"; // Non-existing ID
 
-        // 2. Use Arrays.sort() for optimized alphabetical sorting
-        // This replaces the nested loops used in Bubble Sort
-        Arrays.sort(bogieNames);
+        // 3. Perform Linear Search
+        System.out.println("Search Operation 1: Looking for " + searchKey1);
+        performLinearSearch(bogieIds, searchKey1);
 
-        // 3. Print the sorted result
-        System.out.println("Sorted Bogie Names:   " + Arrays.toString(bogieNames));
+        System.out.println("\nSearch Operation 2: Looking for " + searchKey2);
+        performLinearSearch(bogieIds, searchKey2);
 
-        // 4. Verification with Duplicate Handling
-        String[] duplicates = {"Sleeper", "AC Chair", "Sleeper", "General"};
-        Arrays.sort(duplicates);
-        System.out.println("\nDuplicate Handling:   " + Arrays.toString(duplicates));
+        System.out.println("\nUC18 Completed: Linear search logic verified.");
+    }
 
-        System.out.println("\nUC17 Completed: Optimized library sorting applied.");
+    /**
+     * Implementation of Linear Search Algorithm
+     */
+    public static void performLinearSearch(String[] arr, String target) {
+        boolean found = false;
+        int position = -1;
+
+        // Traverse the array sequentially
+        for (int i = 0; i < arr.length; i++) {
+            // Equality Comparison using equals() for Strings
+            if (arr[i].equals(target)) {
+                found = true;
+                position = i;
+                break; // Early Termination: Stop searching once found
+            }
+        }
+
+        if (found) {
+            System.out.println("RESULT: Bogie " + target + " found at position " + (position + 1));
+        } else {
+            System.out.println("RESULT: Bogie " + target + " not found in the consist.");
+        }
     }
 }
