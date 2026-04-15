@@ -12,6 +12,6 @@ public class Coach {
 
     @Override
     public String toString() {
-        return String.format("[Type: %-12s | Capacity: %d]", type, capacity);
+        return String.format("[Type: %-12s | Capacity: %d seats]", type, capacity);
     }
 }
