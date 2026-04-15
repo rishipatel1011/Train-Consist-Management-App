@@ -1,21 +1,21 @@
 public class Coach {
-    private String type;
-    private int capacity;
+    private String type; // Cylindrical or Rectangular
+    private String cargo;
 
-    public Coach(String type, int capacity) throws InvalidCapacityException {
-        // Business Rule: Capacity must be > 0
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be greater than zero for: " + type);
-        }
+    public Coach(String type) {
         this.type = type;
-        this.capacity = capacity;
     }
 
-    public String getType() { return type; }
-    public int getCapacity() { return capacity; }
+    public void assignCargo(String newCargo) {
+        // Business Rule: Petroleum requires Cylindrical bogies
+        if (newCargo.equalsIgnoreCase("Petroleum") && !type.equalsIgnoreCase("Cylindrical")) {
+            throw new CargoSafetyException("UNSAFE ASSIGNMENT: Petroleum cannot be loaded into " + type + " bogie!");
+        }
+        this.cargo = newCargo;
+    }
 
     @Override
     public String toString() {
-        return "[Type: " + type + " | Capacity: " + capacity + "]";
+        return "[Bogie: " + type + " | Cargo: " + (cargo == null ? "Empty" : cargo) + "]";
     }
 }

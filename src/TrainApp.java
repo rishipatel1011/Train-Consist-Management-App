@@ -1,33 +1,33 @@
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC14: Custom Exception Handling ---\n");
+        System.out.println("--- UC15: Structured Error Handling (try-catch-finally) ---\n");
 
-        // 1. Attempt to create a valid bogie
+        Coach rectangularBogie = new Coach("Rectangular");
+        Coach cylindricalBogie = new Coach("Cylindrical");
+
+        // Test Scenario 1: Safe Assignment
+        System.out.println("Scenario 1: Assigning Coal to Rectangular Bogie...");
+        processAssignment(rectangularBogie, "Coal");
+
+        // Test Scenario 2: Unsafe Assignment
+        System.out.println("\nScenario 2: Assigning Petroleum to Rectangular Bogie...");
+        processAssignment(rectangularBogie, "Petroleum");
+
+        // Test Scenario 3: Safe Assignment
+        System.out.println("\nScenario 3: Assigning Petroleum to Cylindrical Bogie...");
+        processAssignment(cylindricalBogie, "Petroleum");
+    }
+
+    public static void processAssignment(Coach bogie, String cargo) {
         try {
-            System.out.println("Action: Creating valid Sleeper bogie (72 seats)...");
-            Coach sleeper = new Coach("Sleeper", 72);
-            System.out.println("SUCCESS: " + sleeper);
-        } catch (InvalidCapacityException e) {
-            System.err.println("ERROR: " + e.getMessage());
+            bogie.assignCargo(cargo);
+            System.out.println("SUCCESS: Cargo assigned - " + bogie);
+        } catch (CargoSafetyException e) {
+            System.out.println("CAUGHT ERROR: " + e.getMessage());
+        } finally {
+            // This block ALWAYS runs, useful for logging or releasing resources
+            System.out.println("LOG: Cargo assignment attempt completed for " + bogie);
         }
-
-        // 2. Attempt to create an invalid bogie (Zero capacity)
-        try {
-            System.out.println("\nAction: Creating invalid bogie (0 seats)...");
-            Coach brokenBogie = new Coach("Economy", 0);
-        } catch (InvalidCapacityException e) {
-            System.out.println("CAUGHT EXPECTED EXCEPTION: " + e.getMessage());
-        }
-
-        // 3. Attempt to create an invalid bogie (Negative capacity)
-        try {
-            System.out.println("\nAction: Creating invalid bogie (-10 seats)...");
-            Coach ghostBogie = new Coach("Freight", -10);
-        } catch (InvalidCapacityException e) {
-            System.out.println("CAUGHT EXPECTED EXCEPTION: " + e.getMessage());
-        }
-
-        System.out.println("\nUC14 Completed: System is protected from invalid capacity values.");
     }
 }
