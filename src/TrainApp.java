@@ -1,46 +1,48 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC12: Safety Compliance Audit (allMatch) ---\n");
+        System.out.println("--- UC13: Benchmarking Loops vs Streams ---\n");
 
-        // 1. Prepare a list of goods bogies
-        List<Coach> goodsBogies = new ArrayList<>();
-        goodsBogies.add(new Coach("Open", "Coal"));
-        goodsBogies.add(new Coach("Cylindrical", "Petroleum"));
-        goodsBogies.add(new Coach("Box", "Grain"));
-        goodsBogies.add(new Coach("Cylindrical", "Petroleum"));
-
-        System.out.println("Current Goods Composition:");
-        goodsBogies.forEach(System.out::println);
-
-        // 2. allMatch() checks every bogie against safety rules
-        // Rule: If type is 'Cylindrical', cargo MUST be 'Petroleum'
-        boolean isSafe = goodsBogies.stream().allMatch(bogie -> {
-            if (bogie.getType().equalsIgnoreCase("Cylindrical")) {
-                return bogie.getCargo().equalsIgnoreCase("Petroleum");
-            }
-            return true; // Non-cylindrical bogies are safe by default here
-        });
-
-        // 3. Display Result
-        System.out.println("\n--- Safety Audit Report ---");
-        if (isSafe) {
-            System.out.println("STATUS: [SAFE] - All safety constraints satisfied.");
-        } else {
-            System.out.println("STATUS: [UNSAFE] - Violation detected: Cylindrical bogies must only carry Petroleum!");
+        // 1. Prepare a large dataset for realistic benchmarking
+        List<Coach> largeConsist = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            largeConsist.add(new Coach("Sleeper", i % 100));
         }
 
-        // 4. Demonstrate a Violation
-        System.out.println("\nAction: Adding unsafe bogie (Cylindrical carrying Coal)...");
-        goodsBogies.add(new Coach("Cylindrical", "Coal"));
+        // 2. Measure Loop-Based Processing
+        long loopStart = System.nanoTime();
+        List<Coach> loopResult = new ArrayList<>();
+        for (Coach coach : largeConsist) {
+            if (coach.getCapacity() > 60) {
+                loopResult.add(coach);
+            }
+        }
+        long loopEnd = System.nanoTime();
+        long loopDuration = loopEnd - loopStart;
 
-        boolean recheckSafe = goodsBogies.stream().allMatch(bogie ->
-                !bogie.getType().equalsIgnoreCase("Cylindrical") || bogie.getCargo().equalsIgnoreCase("Petroleum")
-        );
+        // 3. Measure Stream-Based Processing
+        long streamStart = System.nanoTime();
+        List<Coach> streamResult = largeConsist.stream()
+                .filter(c -> c.getCapacity() > 60)
+                .collect(Collectors.toList());
+        long streamEnd = System.nanoTime();
+        long streamDuration = streamEnd - streamStart;
 
-        System.out.println("Re-check Status: " + (recheckSafe ? "[SAFE]" : "[UNSAFE]"));
+        // 4. Display Results
+        System.out.println("--- Performance Results (for 10,000 bogies) ---");
+        System.out.println("Loop Processing Time   : " + loopDuration + " ns");
+        System.out.println("Stream Processing Time : " + streamDuration + " ns");
+
+        System.out.println("\nResult Validation:");
+        System.out.println("Loop result size  : " + loopResult.size());
+        System.out.println("Stream result size: " + streamResult.size());
+
+        if (loopResult.size() == streamResult.size()) {
+            System.out.println("SUCCESS: Both methods produced identical results.");
+        }
     }
 }
