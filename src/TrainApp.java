@@ -1,33 +1,41 @@
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("--- UC15: Structured Error Handling (try-catch-finally) ---\n");
+        System.out.println("--- UC16: Manual Sorting (Bubble Sort) ---\n");
 
-        Coach rectangularBogie = new Coach("Rectangular");
-        Coach cylindricalBogie = new Coach("Cylindrical");
+        // 1. Create an array of passenger bogie capacities
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // Test Scenario 1: Safe Assignment
-        System.out.println("Scenario 1: Assigning Coal to Rectangular Bogie...");
-        processAssignment(rectangularBogie, "Coal");
+        System.out.print("Unsorted Capacities: ");
+        printArray(capacities);
 
-        // Test Scenario 2: Unsafe Assignment
-        System.out.println("\nScenario 2: Assigning Petroleum to Rectangular Bogie...");
-        processAssignment(rectangularBogie, "Petroleum");
+        // 2. Bubble Sort Algorithm Implementation
+        // Outer loop handles the number of passes
+        for (int i = 0; i < capacities.length - 1; i++) {
+            // Inner loop handles adjacent comparisons
+            for (int j = 0; j < capacities.length - 1 - i; j++) {
+                // 3. Swap values if the left element is greater than the right
+                if (capacities[j] > capacities[j + 1]) {
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
 
-        // Test Scenario 3: Safe Assignment
-        System.out.println("\nScenario 3: Assigning Petroleum to Cylindrical Bogie...");
-        processAssignment(cylindricalBogie, "Petroleum");
+        // 4. Display the sorted results
+        System.out.print("Sorted Capacities:   ");
+        printArray(capacities);
+
+        System.out.println("\nUC16 Completed: Sorting logic implemented manually.");
     }
 
-    public static void processAssignment(Coach bogie, String cargo) {
-        try {
-            bogie.assignCargo(cargo);
-            System.out.println("SUCCESS: Cargo assigned - " + bogie);
-        } catch (CargoSafetyException e) {
-            System.out.println("CAUGHT ERROR: " + e.getMessage());
-        } finally {
-            // This block ALWAYS runs, useful for logging or releasing resources
-            System.out.println("LOG: Cargo assignment attempt completed for " + bogie);
+    // Helper method to print array contents
+    private static void printArray(int[] arr) {
+        System.out.print("[");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + (i == arr.length - 1 ? "" : ", "));
         }
+        System.out.println("]");
     }
 }
